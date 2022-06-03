@@ -8,7 +8,9 @@ function PopupWithForm({isOpen, name, title, children, onClose, buttonTitle}) {
                 <form className="edit-form" name={name} noValidate>
                     <button className="pop-up__close popup-edit__close-button" onClick={onClose} type="button"></button>
                     <h2 className="edit-form__title">{title}</h2>
+                    <fieldset className="edit-form__area">
                     {children}
+                    </fieldset>
                     <button className="pop-up__save popup-edit__save-button" type="submit">{buttonTitle}</button>
                 </form>
             </div>

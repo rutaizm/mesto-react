@@ -57,25 +57,21 @@ function App() {
         name="profileEditForm" 
         title="Редактировать профиль"
         buttonTitle="Сохранить">
-            <fieldset className="edit-form__area">
                 <input type="text" id="name-input" name="name" placeholder="Имя" className="edit-form__field edit-form__field_type_name" required minLength="2" maxLength="40" />
                 <span className="edit-form__input-error name-input-error"></span>
                 <input type="text" id="job-input" name="about" placeholder="Подпись" className="edit-form__field edit-form__field_type_info" required minLength="2" maxLength="200" />
-                <span className="edit-form__input-error job-input-error"></span>
-            </fieldset>
+                <span className="edit-form__input-error job-input-error"></span>      
     </PopupWithForm>
     <PopupWithForm 
         isOpen={isAddPlacePopupOpen} 
         onClose={closeAllPopups} 
         name="addPhotoForm" 
         title="Новое место"
-        buttonTitle="Создать">
-            <fieldset className="edit-form__area">
+        buttonTitle="Создать">            
                 <input type="text" id="place-input" name="name" placeholder="Название" className="edit-form__field edit-form__field_type_place" required minLength="2" maxLength="30" />
                 <span className="edit-form__input-error place-input-error"></span>
                 <input type="url" id="link-input" name="link" placeholder="Ссылка на картинку" className="edit-form__field edit-form__field_type_link" required />
-                <span className="edit-form__input-error link-input-error"></span>
-            </fieldset>
+                <span className="edit-form__input-error link-input-error"></span>            
     </PopupWithForm>
     <PopupWithForm  
         isOpen={isEditAvatarPopupOpen} 
@@ -83,10 +79,8 @@ function App() {
         name="addAvatarForm" 
         title="Обновить аватар"
         buttonTitle="Сохранить">
-            <fieldset className="edit-form__area">
                 <input type="url" id="avatar-input" name="avatar" placeholder="Ссылка на картинку" className="edit-form__field edit-form__field_type_link" required />
                 <span className="edit-form__input-error avatar-input-error"></span>
-            </fieldset>
     </PopupWithForm>
     <ImagePopup 
         isOpen={isImagePopupOpen}
