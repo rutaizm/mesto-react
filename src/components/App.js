@@ -7,6 +7,7 @@ import PopupWithForm from './PopupWithForm';
 import ImagePopup from './ImagePopup';
 import {CurrentUserContext} from '../contexts/CurrentUserContext'
 import api from '../utils/Api';
+import EditProfilePopup from './EditProfilePopup';
 
 function App() {
 
@@ -45,10 +46,22 @@ function App() {
         setSelectedCard({});
     }
 
+    function handleUpdateUser(user) {
+        api.editProfileInfo(user.name, user.about)
+            .then((res) => {
+                setCurrentUser(res)
+                closeAllPopups()
+            })
+            .catch((err) => {
+                console.log(err)
+            });
+    }
+
     React.useEffect(() => {
             api.getProfileInfo()        
             .then((res) => {
                 setCurrentUser(res)
+
             })
             .catch((err) => {
                 console.log(err)
@@ -66,17 +79,10 @@ function App() {
             onCardClick = {handleCardClick}
         />
         <Footer />
-        <PopupWithForm 
+        <EditProfilePopup 
             isOpen={isEditProfilePopupOpen} 
-            onClose={closeAllPopups} 
-            name="profileEditForm" 
-            title="Редактировать профиль"
-            buttonTitle="Сохранить">
-                    <input type="text" id="name-input" name="name" placeholder="Имя" className="edit-form__field edit-form__field_type_name" required minLength="2" maxLength="40" />
-                    <span className="edit-form__input-error name-input-error"></span>
-                    <input type="text" id="job-input" name="about" placeholder="Подпись" className="edit-form__field edit-form__field_type_info" required minLength="2" maxLength="200" />
-                    <span className="edit-form__input-error job-input-error"></span>      
-        </PopupWithForm>
+            onClose={closeAllPopups}
+            onUpdateUser={handleUpdateUser}/>
         <PopupWithForm 
             isOpen={isAddPlacePopupOpen} 
             onClose={closeAllPopups} 
