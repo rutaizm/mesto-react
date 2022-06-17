@@ -6,10 +6,11 @@ import Footer from './Footer';
 import PopupWithForm from './PopupWithForm';
 import ImagePopup from './ImagePopup';
 import {CurrentUserContext} from '../contexts/CurrentUserContext'
+import api from '../utils/Api';
 
 function App() {
 
-    const [currentUser, setCurrentUser] = React.setState({});
+    const [currentUser, setCurrentUser] = React.useState({});
 
     const [isEditProfilePopupOpen, setEditProfilePopupOpen] = React.useState(false);
     const [isAddPlacePopupOpen, setAddPlacePopupOpen] = React.useState(false);
