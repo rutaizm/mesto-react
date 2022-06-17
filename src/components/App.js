@@ -8,6 +8,7 @@ import ImagePopup from './ImagePopup';
 import {CurrentUserContext} from '../contexts/CurrentUserContext'
 import api from '../utils/Api';
 import EditProfilePopup from './EditProfilePopup';
+import EditAvatarPopup from './EditAvatarPopup'
 
 function App() {
 
@@ -57,6 +58,17 @@ function App() {
             });
     }
 
+    function handleUpdateAvatar(link) {
+        api.addAvatar(link)
+            .then((res) => {
+                setCurrentUser(res)
+                closeAllPopups()
+            })
+            .catch((err) => {
+                console.log(err)
+            });
+    }
+
     React.useEffect(() => {
             api.getProfileInfo()        
             .then((res) => {
@@ -94,15 +106,10 @@ function App() {
                     <input type="url" id="link-input" name="link" placeholder="Ссылка на картинку" className="edit-form__field edit-form__field_type_link" required />
                     <span className="edit-form__input-error link-input-error"></span>            
         </PopupWithForm>
-        <PopupWithForm  
+        <EditAvatarPopup  
             isOpen={isEditAvatarPopupOpen} 
-            onClose={closeAllPopups} 
-            name="addAvatarForm" 
-            title="Обновить аватар"
-            buttonTitle="Сохранить">
-                    <input type="url" id="avatar-input" name="avatar" placeholder="Ссылка на картинку" className="edit-form__field edit-form__field_type_link" required />
-                    <span className="edit-form__input-error avatar-input-error"></span>
-        </PopupWithForm>
+            onClose={closeAllPopups}
+            onUpdateAvatar={handleUpdateAvatar}/>
         <ImagePopup 
             isOpen={isImagePopupOpen}
             onClose={closeAllPopups} 
