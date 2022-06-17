@@ -13,6 +13,7 @@ import EditAvatarPopup from './EditAvatarPopup'
 function App() {
 
     const [currentUser, setCurrentUser] = React.useState({});
+    const [cards, setCards] = React.useState([]);
 
     const [isEditProfilePopupOpen, setEditProfilePopupOpen] = React.useState(false);
     const [isAddPlacePopupOpen, setAddPlacePopupOpen] = React.useState(false);
@@ -69,6 +70,22 @@ function App() {
             });
     }
 
+    function handleCardLike(card) {
+        const isLiked = card.likes.some(i => i._id === currentUser._id);
+        api.changeLikeCardStatus(card._id, isLiked)
+            .then((newCard) => {
+            setCards((state) => state.map((c) => c._id === card._id ? newCard : c));
+            });
+    }
+
+    function handleCardDelete(card) {
+        const isOwn = card.owner._id === currentUser._id;
+        api.deleteCard(card._id)
+            .then(() => {
+            setCards((cards) => cards.filter((item) => item._id !== card._id));
+            });
+    }
+
     React.useEffect(() => {
             api.getProfileInfo()        
             .then((res) => {
@@ -80,15 +97,28 @@ function App() {
             });
           }, []);
 
+    React.useEffect(() => {
+            api.getInitialCards()       
+           .then((cards) => {
+               setCards(cards)
+           })
+           .catch((err) => {
+               console.log(err)
+           });
+         }, []);      
+
   return (
     <CurrentUserContext.Provider value={currentUser}>  
         <div className="page__content">
         <Header />
         <Main 
+            cards={cards}
             onEditProfile = {handleEditProfileClick}
             onAddPlace = {handleAddPlaceClick}
             onEditAvatar = {handleEditAvatarClick}
             onCardClick = {handleCardClick}
+            onCardLike = {handleCardLike}
+            onCardDelete = {handleCardDelete}
         />
         <Footer />
         <EditProfilePopup 

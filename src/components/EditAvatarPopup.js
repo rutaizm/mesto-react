@@ -4,8 +4,6 @@ import {CurrentUserContext} from '../contexts/CurrentUserContext'
 
 function EditAvatarPopup ({isOpen, onClose, onUpdateAvatar}) {
 
-    // const currentUser = React.useContext(CurrentUserContext);
-
     const srcAvatar = React.useRef();
 
     function handleSubmit(e) {
