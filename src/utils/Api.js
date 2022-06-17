@@ -76,6 +76,14 @@ export class Api {
         .then(this._handleError); 
     }
 
+    changeLikeCardStatus(_id, isLiked) {
+        if (isLiked) {
+            return this.deleteLike(_id);
+        } else {
+            return this.addLike(_id);
+        }
+    }    
+
 }
 
 const api = new Api({
