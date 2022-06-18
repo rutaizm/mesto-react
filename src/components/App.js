@@ -24,6 +24,8 @@ function App() {
     const [selectedCard, setSelectedCard] = React.useState({});
     const [isImagePopupOpen, setImagePopupOpen] = React.useState(false);
 
+    const [renderLoading, setRenderLoading] = React.useState(false);
+
     function handleEditAvatarClick() {
         setEditAvatarPopupOpen(true);
     }
@@ -50,6 +52,7 @@ function App() {
     }
 
     function handleUpdateUser(user) {
+        setRenderLoading(true);
         api.editProfileInfo(user.name, user.about)
             .then((res) => {
                 setCurrentUser(res)
@@ -57,10 +60,14 @@ function App() {
             })
             .catch((err) => {
                 console.log(err)
-            });
+            })
+            .finally(() =>{
+                setRenderLoading(false);
+            })
     }
 
     function handleUpdateAvatar(link) {
+        setRenderLoading(true);
         api.addAvatar(link)
             .then((res) => {
                 setCurrentUser(res)
@@ -68,6 +75,9 @@ function App() {
             })
             .catch((err) => {
                 console.log(err)
+            })
+            .finally(() =>{
+                setRenderLoading(false);
             });
     }
 
@@ -87,35 +97,36 @@ function App() {
     }
 
     function handleAddPlaceSubmit(card) {
+        setRenderLoading(true);
         api.addCard(card.name, card.link)
             .then((newCard) => {
             setCards([newCard, ...cards]);
             closeAllPopups();
+            })
+            .catch((err) => {
+                console.log(err)
+            })
+            .finally(() =>{
+                setRenderLoading(false);
             });
     }
 
     React.useEffect(() => {
-            api.getProfileInfo()        
+        Promise.all([
+            api.getProfileInfo(),
+            api.getInitialCards()
+        ])                    
             .then((res) => {
-                setCurrentUser(res)
-
+                const [userInfo, cards] = res
+                setCurrentUser(userInfo);
+                setCards(cards);
             })
             .catch((err) => {
                 console.log(err)
             });
           }, []);
 
-    React.useEffect(() => {
-            api.getInitialCards()       
-           .then((cards) => {
-               setCards(cards)
-           })
-           .catch((err) => {
-               console.log(err)
-           });
-         }, []);      
-
-  return (
+return (
     <CurrentUserContext.Provider value={currentUser}>  
         <div className="page__content">
         <Header />
@@ -132,15 +143,18 @@ function App() {
         <EditProfilePopup 
             isOpen={isEditProfilePopupOpen} 
             onClose={closeAllPopups}
-            onUpdateUser={handleUpdateUser}/>
+            onUpdateUser={handleUpdateUser}
+            renderLoading={renderLoading}/>
         <AddPlacePopup 
             isOpen={isAddPlacePopupOpen} 
             onClose={closeAllPopups}
-            onAddPlace={handleAddPlaceSubmit}/>
+            onAddPlace={handleAddPlaceSubmit}
+            renderLoading={renderLoading}/>
         <EditAvatarPopup  
             isOpen={isEditAvatarPopupOpen} 
             onClose={closeAllPopups}
-            onUpdateAvatar={handleUpdateAvatar}/>
+            onUpdateAvatar={handleUpdateAvatar}
+            renderLoading={renderLoading}/>
         <ImagePopup 
             isOpen={isImagePopupOpen}
             onClose={closeAllPopups} 

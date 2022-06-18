@@ -1,7 +1,7 @@
 import React from 'react';
 import PopupWithForm from './PopupWithForm';
 
-function AddPlacePopup ({isOpen, onClose, onAddPlace}) {
+function AddPlacePopup ({isOpen, onClose, onAddPlace, renderLoading}) {
 
     const [name, setName] = React.useState('');
     const [link, setLink] = React.useState('');
@@ -22,12 +22,20 @@ function AddPlacePopup ({isOpen, onClose, onAddPlace}) {
           });
     }
 
+    React.useEffect(() => {
+        if (isOpen) {
+            setName('');
+            setLink('');
+        }
+     }, [isOpen]); 
+
     return (
         <PopupWithForm 
             isOpen={isOpen} 
             onClose={onClose} 
             onSubmit={handleSubmit}
             onAddPlace={onAddPlace}
+            renderLoading={renderLoading}
             name="addPhotoForm" 
             title="Новое место"
             buttonTitle="Создать">            

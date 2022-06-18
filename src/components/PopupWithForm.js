@@ -1,6 +1,6 @@
 import React from "react";
 
-function PopupWithForm({isOpen, name, title, children, onClose, buttonTitle, onSubmit}) {
+function PopupWithForm({isOpen, name, title, children, onClose, buttonTitle, onSubmit, renderLoading}) {
     return (
     <>  
         <div className={`pop-up popup_type_${name} ${isOpen && "pop-up_opened"}`}>
@@ -11,7 +11,8 @@ function PopupWithForm({isOpen, name, title, children, onClose, buttonTitle, onS
                     <fieldset className="edit-form__area">
                     {children}
                     </fieldset>
-                    <button className="pop-up__save popup-edit__save-button" type="submit">{buttonTitle}</button>
+                    <button className="pop-up__save popup-edit__save-button" type="submit">
+                        {renderLoading ? 'Сохранение...' : buttonTitle}</button>
                 </form>
             </div>
         </div>
