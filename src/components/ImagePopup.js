@@ -1,8 +1,15 @@
 import React from "react";
 
 function ImagePopup({isOpen, card, onClose}) {
+
+    function handleOverlayClick(e) {
+        if (e.target === e.currentTarget) {
+            onClose();
+        }
+    }
+
     return(
-        <div className={`pop-up image-popup ${isOpen && "pop-up_opened"}`}>
+        <div className={`pop-up image-popup ${isOpen && "pop-up_opened"}`} onClick={handleOverlayClick}>
         <div className="image-popup__container">
             <figure className="image-popup__photo">
                 <img className="image-popup__item" src={card.link} alt={card.name} />
