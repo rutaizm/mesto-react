@@ -1,22 +1,10 @@
 import React from 'react';
 import PopupWithForm from './PopupWithForm';
-import {CurrentUserContext} from '../contexts/CurrentUserContext';
 import FormWithValidation from './FormWithValidation';
 
 function AddPlacePopup ({isOpen, onClose, onAddPlace, renderLoading}) {
     
     const {inputValue, error, formIsValid, handleInputsChanges, resetValidation} = FormWithValidation({});
-
-    // const [name, setName] = React.useState('');
-    // const [link, setLink] = React.useState('');
-
-    // function handleName(e) {
-    //     setName(e.target.value);
-    // }
-
-    // function handleLink(e) {
-    //     setLink(e.target.value);
-    // }
 
     function handleSubmit(e) {
         e.preventDefault();
