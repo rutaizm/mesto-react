@@ -1,9 +1,16 @@
 import React from "react";
 
-function PopupWithForm({isOpen, name, title, children, onClose, buttonTitle, onSubmit, renderLoading}) {
-    return (
+function PopupWithForm({isOpen, name, title, children, onClose, buttonTitle, onSubmit, renderLoading, disabled}) {
+    
+    function handleOverlayClick(e) {
+        if (e.target === e.currentTarget) {
+            onClose();
+        }
+    }
+
+  return (
     <>  
-        <div className={`pop-up popup_type_${name} ${isOpen && "pop-up_opened"}`}>
+        <div className={`pop-up popup_type_${name} ${isOpen && "pop-up_opened"}`} onClick={handleOverlayClick}>
             <div className="pop-up__container">        
                 <form className="edit-form" name={name} onSubmit={onSubmit} noValidate>
                     <button className="pop-up__close popup-edit__close-button" onClick={onClose} type="button"></button>
@@ -11,7 +18,7 @@ function PopupWithForm({isOpen, name, title, children, onClose, buttonTitle, onS
                     <fieldset className="edit-form__area">
                     {children}
                     </fieldset>
-                    <button className="pop-up__save popup-edit__save-button" type="submit">
+                    <button className={disabled ?  "pop-up__save pop-up__save_type_disabled popup-edit__save-button" : "pop-up__save popup-edit__save-button"} type="submit">
                         {renderLoading ? 'Сохранение...' : buttonTitle}</button>
                 </form>
             </div>

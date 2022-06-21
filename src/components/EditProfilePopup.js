@@ -1,48 +1,55 @@
 import React from 'react';
 import PopupWithForm from './PopupWithForm';
-import {CurrentUserContext} from '../contexts/CurrentUserContext'
+import {CurrentUserContext} from '../contexts/CurrentUserContext';
+import FormWithValidation from './FormWithValidation';
 
 function EditProfilePopup ({isOpen, onClose, onUpdateUser, renderLoading}) {
+    
     const currentUser = React.useContext(CurrentUserContext);
 
-    const [name, setName] = React.useState('');
-    const [description, setDescription] = React.useState('');
+    // const [name, setName] = React.useState('');
+    // const [description, setDescription] = React.useState('');
 
-    function handleName(e) {
-        setName(e.target.value);
-    }
+    // React.useEffect(() => {
+    //     setName(currentUser.name);
+    //     setDescription(currentUser.about);
+    //   }, [currentUser]);  
 
-    function handleDescription(e) {
-        setDescription(e.target.value);
-      }
+    const {inputValue, error, formIsValid, handleInputsChanges, resetValidation} = FormWithValidation({});
+
+    // function handleName(e) {
+    //     setName(e.target.value);
+    // }
+
+    // function handleDescription(e) {
+    //     setDescription(e.target.value);
+    //   }
 
     function handleSubmit(event) {
         event.preventDefault();
-        onUpdateUser({
-            name: name,
-            about: description,
-          });
+        onUpdateUser(inputValue);
     }  
 
-    React.useEffect(() => {
-        setName(currentUser.name);
-        setDescription(currentUser.about);
-      }, [currentUser]);   
-
+    React.useEffect(()=>{
+        if(currentUser) {
+            resetValidation(currentUser);
+        }
+    }, [currentUser, resetValidation, isOpen])
+    
     return (
         <PopupWithForm
             isOpen={isOpen} 
             onClose={onClose}
-            onSubmit={handleSubmit}
-            onUpdateUser={onUpdateUser}
+            onSubmit={handleSubmit}           
             renderLoading={renderLoading}
+            disabled={!formIsValid}
             name="profileEditForm" 
             title="Редактировать профиль"
             buttonTitle="Сохранить">
-                    <input type="text" value={name} onChange={handleName} id="name-input" name="name" placeholder="Имя" className="edit-form__field edit-form__field_type_name" required minLength="2" maxLength="40" />
-                    <span className="edit-form__input-error name-input-error"></span>
-                    <input type="text" value={description} onChange={handleDescription} id="job-input" name="about" placeholder="Подпись" className="edit-form__field edit-form__field_type_info" required minLength="2" maxLength="200" />
-                    <span className="edit-form__input-error job-input-error"></span>  
+                    <input type="text" value={inputValue.name} onChange={handleInputsChanges} id="name-input" name="name" placeholder="Имя" className={error.name ? "edit-form__field edit-form__field_type_error edit-form__field_type_name" : "edit-form__field edit-form__field_type_name"} required minLength="2" maxLength="40" />
+                    <span className={error.name ?"edit-form__input-error edit-form__input-error_active name-input-error" :"edit-form__input-error name-input-error"}>{error.name}</span>
+                    <input type="text" value={inputValue.about} onChange={handleInputsChanges} id="job-input" name="about" placeholder="Подпись" className={error.about ? "edit-form__field edit-form__field_type_error edit-form__field_type_info" : "edit-form__field edit-form__field_type_info"} required minLength="2" maxLength="200" />
+                    <span className={error.about ? "edit-form__input-error edit-form__input-error_active job-input-error" :"edit-form__input-error name-input-error"}>{error.about}</span>  
         </PopupWithForm>            
     )
 }
