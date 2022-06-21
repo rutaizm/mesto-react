@@ -1,6 +1,6 @@
-import React, { useEffect, useState,useMemo, useCallback } from 'react';
+import { useState, useCallback } from 'react';
 
-function FormWithValidation({}) {
+function useValidation({}) {
     
     const [inputValue, setInputValue] = useState({});
     const [error, setError] = useState({});
@@ -20,9 +20,9 @@ function FormWithValidation({}) {
         setInputValue(inputValueNew);
         setError(errorNew);
         setFormIsValid(formIsValidNew);
-    }, [setInputValue, setError, setFormIsValid]) 
+    }, []) 
     
     return {inputValue, error, formIsValid, handleInputsChanges, resetValidation};
 }
 
-export default FormWithValidation
+export default useValidation

@@ -1,5 +1,4 @@
 import React from 'react';
-import '../index.css';
 import Header from './Header';
 import Main from './Main';
 import Footer from './Footer';
@@ -95,17 +94,26 @@ function App() {
         api.changeLikeCardStatus(card._id, isLiked)
             .then((newCard) => {
             setCards((state) => state.map((c) => c._id === card._id ? newCard : c));
-            });
+            }) 
+            .catch((err) => {
+                console.log(err)
+            })
     }
 
     function handleCardDelete(e) {
         e.preventDefault();
+        setRenderLoading(true);
         api.deleteCard(deleteCard._id)
             .then(() => {
             setCards((cards) => cards.filter((item) => item._id !== deleteCard._id));
             setConfirmationPopupOpen(false);
+            })
+            .catch((err) => {
+                console.log(err)
+            })
+            .finally(() =>{
+                setRenderLoading(false);
             });
-            console.log(deleteCard);
     }
 
     function handleAddPlaceSubmit(card) {
@@ -174,12 +182,8 @@ return (
         />
         <PopupWithConfirmation
             isOpen={isConfirmationPopupOpen}
-            onClose={closeAllPopups}
-            name="PopupWithConfirmation"
-            title="Вы уверены?"
-            buttonTitle="Да"
+            onClose={closeAllPopups}            
             renderLoading={renderLoading}
-            card={selectedCard}
             onSubmit={handleCardDelete}
         />    
         </div>

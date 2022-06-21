@@ -1,6 +1,6 @@
 import React from "react";
 
-function PopupWithForm({isOpen, name, title, children, onClose, buttonTitle, onSubmit, renderLoading, disabled}) {
+function PopupWithForm({isOpen, name, title, children, onClose, buttonTitle, buttonLoadText, onSubmit, renderLoading, disabled}) {
     
     function handleOverlayClick(e) {
         if (e.target === e.currentTarget) {
@@ -19,7 +19,7 @@ function PopupWithForm({isOpen, name, title, children, onClose, buttonTitle, onS
                     {children}
                     </fieldset>
                     <button className={disabled ?  "pop-up__save pop-up__save_type_disabled popup-edit__save-button" : "pop-up__save popup-edit__save-button"} type="submit">
-                        {renderLoading ? 'Сохранение...' : buttonTitle}</button>
+                        {renderLoading ? buttonLoadText : buttonTitle}</button>
                 </form>
             </div>
         </div>
