@@ -10,8 +10,10 @@ function Main({cards, onEditProfile, onAddPlace, onEditAvatar, onCardClick, onCa
         <main className="content">
         <section className="profile">
             <div className="profile__container">
-                <img className="profile__avatar" src={currentUser.avatar} alt="Жак-Ив Кусто" />
-                <button type="button" className="profile__avatar-button" onClick={onEditAvatar}></button>
+                <div className="profile__avatar-wrapper">
+                    <img className="profile__avatar" src={currentUser.avatar} alt="Жак-Ив Кусто" />
+                    <button type="button" className="profile__avatar-button" onClick={onEditAvatar}></button>
+                </div>                
                 <div className="profile__bio"> 
                     <div className="profile__text">
                         <h1 className="profile__name">{currentUser.name}</h1>
