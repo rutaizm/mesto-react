@@ -4,7 +4,7 @@ import useValidation from '../hooks/useValidation';
 
 function AddPlacePopup ({isOpen, onClose, onAddPlace, renderLoading}) {
     
-    const {inputValue, error, formIsValid, handleInputsChanges, resetValidation} = useValidation({});
+    const {inputValue, error, formIsValid, setInputValue, setError, setFormIsValid, handleInputsChanges} = useValidation({});
 
     function handleSubmit(e) {
         e.preventDefault();
@@ -13,9 +13,13 @@ function AddPlacePopup ({isOpen, onClose, onAddPlace, renderLoading}) {
 
     React.useEffect(() => {
         if (isOpen) {
-            resetValidation();
+            setInputValue({});
+            setError({});
+            setFormIsValid(false);
+            console.log(inputValue.name);
+            console.log(inputValue.link);
         }
-     }, [isOpen, resetValidation]); 
+     }, [isOpen]); 
      
     return (
         <PopupWithForm 
@@ -28,7 +32,7 @@ function AddPlacePopup ({isOpen, onClose, onAddPlace, renderLoading}) {
             name="addPhotoForm" 
             title="Новое место"
             buttonTitle="Создать"
-            buttonLoadText='Загрузка...'>            
+            buttonLoadText='Сохранение...'>            
                     <input 
                         type="text" 
                         value={inputValue.name || ''} 

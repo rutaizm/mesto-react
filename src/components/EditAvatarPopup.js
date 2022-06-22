@@ -5,7 +5,7 @@ import useValidation from '../hooks/useValidation';
 function EditAvatarPopup ({isOpen, onClose, onUpdateAvatar, renderLoading}) {
 
     const srcAvatar = React.useRef();
-    const {inputValue, error, formIsValid, handleInputsChanges, resetValidation} = useValidation({});
+    const {inputValue, error, formIsValid, setInputValue, setError, setFormIsValid, handleInputsChanges} = useValidation({});
 
     function handleSubmit(e) {
         e.preventDefault();      
@@ -15,9 +15,11 @@ function EditAvatarPopup ({isOpen, onClose, onUpdateAvatar, renderLoading}) {
     React.useEffect(() => {
        if (isOpen) {
            srcAvatar.current.value = '';
-           resetValidation();
+           setInputValue('');
+           setError('');
+           setFormIsValid('');
         }
-    }, [isOpen, resetValidation]); 
+    }, [isOpen, setInputValue, setError, setFormIsValid]); 
 
     return (
         <PopupWithForm  

@@ -15,14 +15,8 @@ function useValidation({}) {
         setError({...error, [name]: target.validationMessage});
         setFormIsValid(target.closest('.edit-form').checkValidity());
     }
-    
-    const resetValidation = useCallback((inputValueNew={}, errorNew={}, formIsValidNew=false) => {
-        setInputValue(inputValueNew);
-        setError(errorNew);
-        setFormIsValid(formIsValidNew);
-    }, []) 
-    
-    return {inputValue, error, formIsValid, handleInputsChanges, resetValidation};
+ 
+    return {inputValue, error, formIsValid, setInputValue, setError, setFormIsValid, handleInputsChanges};
 }
 
 export default useValidation
